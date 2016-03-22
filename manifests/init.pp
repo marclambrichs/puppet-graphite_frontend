@@ -46,6 +46,6 @@ class graphite_web (
   class { 'graphite_web::install': } ->
   class { 'graphite_web::config': } ~>
   class { 'graphite_web::service': } ->
-  anchor { 'graphite_wweb::end': }
+  anchor { 'graphite_web::end': }
 
 }
