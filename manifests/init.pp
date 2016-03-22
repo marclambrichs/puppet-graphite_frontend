@@ -1,41 +1,51 @@
 # == Class: graphite_web
 #
-# Full description of class graphite_web here.
+# Installs, configures and manages graphite-web service.
 #
 # === Parameters
 #
-# Document parameters here.
+# [*gw_graphite_web_pkg*]
+#   Specifies the name of the graphite web package.
+#   Default: 'graphite-web'
 #
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
+# [*gw_graphite_web_version*]
+#   Specifies the version of the graphite web package.
+#   Default: present
 #
-# === Variables
-#
-# Here you should define a list of variables that this module would require.
-#
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
+# [*manage_packages*]
+#   Specifies if this module should or should not install packages.
+#   Type: Boolean
+#   Default: true
 #
 # === Examples
 #
-#  class { 'graphite_web':
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
-#  }
+#  class { 'graphite_web': }
+#
 #
 # === Authors
 #
-# Author Name <author@domain.com>
+# Marc Lambrichs <marc.lambrichs@gmail.com>
 #
 # === Copyright
 #
-# Copyright 2016 Your name here, unless otherwise noted.
+# Copyright 2016 Marc Lambrichs
 #
-class graphite_web {
+class graphite_web (
+  $manage_packages = $graphite_web::params::manage_packages,
+  $gw_graphite_web_version = $graphite_web::params::gw_graphite_web_version,
+  $gw_graphite_web_pkg     = $graphite_web::params::gw_graphite_web_pkg,
+) inherits graphite_web::params {
 
+  validate_bool( $manage_packages )
+
+  validate_re( $gw_graphite_web_version, '^(present|\d+\.\d+\.\d+)$' )
+
+  validate_string( $gw_graphite_web_pkg )
+
+  anchor { 'graphite_web::begin': } ->
+  class { 'graphite_web::install': } ->
+  class { 'graphite_web::config': } ~>
+  class { 'graphite_web::service': } ->
+  anchor { 'graphite_wweb::end': }
 
 }
