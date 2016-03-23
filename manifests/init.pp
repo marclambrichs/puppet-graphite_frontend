@@ -4,6 +4,9 @@
 #
 # === Parameters
 #
+# [*apache_service_name*]
+#   Default: 'httpd'
+#
 # [*gw_django_version*]
 #
 # [*gw_django_pkg*]
@@ -51,7 +54,7 @@
 # Copyright 2016 Marc Lambrichs
 #
 class graphite_web (
-
+  $apache_service_name       = $graphite_web::params::apache_service_name,
   $gw_django_version         = $graphite_web::params::gw_django_version,
   $gw_django_pkg             = $graphite_web::params::gw_django_pkg,
   $gw_django_tagging_version = $graphite_web::params::gw_django_tagging_version,
@@ -77,6 +80,7 @@ class graphite_web (
   validate_re( $gw_pytz_version, '^(present|\d+\.\d+\.\d+)$' )
 
   validate_string(
+    $apache_service_name,
     $gw_django_pkg,
     $gw_django_tagging_pkg,
     $gw_graphite_web_pkg,
