@@ -10,11 +10,7 @@ class graphite_web::install {
       'django-tagging' => {
         ensure => $graphite_web::gw_django_tagging_version,
         name   => $graphite_web::gw_django_tagging_pkg
-<<<<<<< HEAD
       },
-=======
-      }
->>>>>>> de7de7a... Added necessary packages
       'graphite-web' => {
         ensure => $graphite_web::gw_graphite_web_version,
         name   => $graphite_web::gw_graphite_web_pkg
@@ -22,11 +18,7 @@ class graphite_web::install {
       'mod_wsgi' => {
         ensure => $graphite_web::gw_mod_wsgi_version,
         name   => $graphite_web::gw_mod_wsgi_pkg
-<<<<<<< HEAD
       },
-=======
-      }
->>>>>>> de7de7a... Added necessary packages
       'pycairo' => {
         ensure => $graphite_web::gw_pycairo_version,
         name   => $graphite_web::gw_pycairo_pkg
