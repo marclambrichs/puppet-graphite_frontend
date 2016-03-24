@@ -67,8 +67,11 @@ class graphite_web (
   $gw_pycairo_pkg            = $graphite_web::params::gw_pycairo_pkg,
   $gw_pytz_version           = $graphite_web::params::gw_pytz_version,
   $gw_pytz_pkg               = $graphite_web::params::gw_pytz_pkg,
+  $gw_webapp_dir             = $graphite_web::params::gw_webapp_dir,
   $manage_packages           = $graphite_web::params::manage_packages,
 ) inherits graphite_web::params {
+
+  validate_absolute_path( $gw_webapp_dir )
 
   validate_bool( $manage_packages )
 

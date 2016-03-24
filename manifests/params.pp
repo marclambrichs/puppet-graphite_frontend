@@ -15,5 +15,6 @@ class graphite_web::params {
   $gw_pycairo_pkg            = 'pycairo'
   $gw_pytz_version           = present
   $gw_pytz_pkg               = 'pytz'
+  $gw_webapp_dir             = '/etc/graphite-web'
   $manage_packages           = true
 }
