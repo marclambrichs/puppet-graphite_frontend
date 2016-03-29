@@ -30,12 +30,4 @@ class graphite_web::install {
     })
   }
 
-  exec { 'init django db':
-    command     => '/bin/python manage.py syncdb --noinput',
-    creates     => '/var/lib/graphite-web/graphite.db',
-    path        => '/usr/lib/python2.7/site-packages',
-    refreshonly => true,
-    require     => File["${graphite_web::gw_webapp_dir}/local_settings.py"]
-  }
-
 }

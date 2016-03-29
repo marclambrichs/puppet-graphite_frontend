@@ -29,4 +29,12 @@ class graphite_web::config {
     owner   => $graphite_web::gw_user,
     require => Package[$graphite_web::gw_graphite_web_pkg]
   }
+
+  exec { 'init django db':
+    command     => '/bin/python ./manage.py syncdb --noinput',
+    cwd         => '/usr/lib/python2.7/site-packages/graphite',
+    refreshonly => true,
+    require     => File["${graphite_web::gw_webapp_dir}/local_settings.py"]
+  }
+
 }
