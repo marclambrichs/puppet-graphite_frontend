@@ -37,4 +37,29 @@ class graphite_web::config {
     require     => File["${graphite_web::gw_webapp_dir}/local_settings.py"]
   }
 
+  class {'apache': }
+
+  apache::vhost { $::hostname:
+    vhost_name      => '*',
+    port            => '80',
+    serveraliases   => [ 'graphite2.arthurjames.vagrant' ],
+    error_log       => true,
+    error_log_file  => '/var/log/graphite-web/error.log',
+    redirect_dest   => "https://${::hostname}/",
+    redirect_status => 'permanent',
+    custom_fragment => 'CustomLog "/var/log/graphite-web/access.log" combined_time',
+    directories     => [
+      {
+        custom_fragment => '
+    ## enable server-status for localhost (needed for collectd apache plugin)
+    <Location /server-status>
+        SetHandler server-status
+        Order deny,allow
+        Deny from all
+        Allow from 127.0.0.1
+    </Location>',
+      },
+    ]
+  }
+
 }
