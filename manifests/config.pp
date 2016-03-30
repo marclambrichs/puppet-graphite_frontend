@@ -37,29 +37,28 @@ class graphite_web::config {
     require     => File["${graphite_web::gw_webapp_dir}/local_settings.py"]
   }
 
-  class {'apache': }
-
-  apache::vhost { $::hostname:
+  apache::vhost { $::fqdn:
     vhost_name      => '*',
     port            => '80',
     serveraliases   => [ 'graphite2.arthurjames.vagrant' ],
+    docroot         => '/usr/share/graphite/webapp',
     error_log       => true,
-    error_log_file  => '/var/log/graphite-web/error.log',
-    redirect_dest   => "https://${::hostname}/",
+    error_log_file  => "${::hostname}.error.log",
+    redirect_dest   => "https://${::fqdn}/",
     redirect_status => 'permanent',
-    custom_fragment => 'CustomLog "/var/log/graphite-web/access.log" combined_time',
-    directories     => [
-      {
-        custom_fragment => '
-    ## enable server-status for localhost (needed for collectd apache plugin)
-    <Location /server-status>
-        SetHandler server-status
-        Order deny,allow
-        Deny from all
-        Allow from 127.0.0.1
-    </Location>',
-      },
-    ]
+    access_logs     => [ {
+      file  => "/var/log/httpd/${hostname}.access.log",
+      ## unnecessary for now, but we need to change this
+      format => 'combined'
+    },],
+    directories     => [ {
+      provider => 'location',
+      path     => '/server-status',
+      sethandler => 'server-status',
+      require    => 'ip 127.0.0.1',
+#      order      => 'deny,allow',
+#      deny       => 'from all',
+#      allow      => 'from 127.0.0.1',
+    },]
   }
-
 }
