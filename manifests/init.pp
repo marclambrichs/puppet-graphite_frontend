@@ -55,6 +55,8 @@
 #
 class graphite_web (
   $apache_service_name       = $graphite_web::params::apache_service_name,
+  $carbonlink_hosts          = $graphite_web::params::carbonlink_hosts,
+  $carbonlink_timeout        = $graphite_web::params::carbonlink_timeout,
   $gw_django_version         = $graphite_web::params::gw_django_version,
   $gw_django_pkg             = $graphite_web::params::gw_django_pkg,
   $gw_django_tagging_version = $graphite_web::params::gw_django_tagging_version,
@@ -69,11 +71,16 @@ class graphite_web (
   $gw_pytz_pkg               = $graphite_web::params::gw_pytz_pkg,
   $gw_webapp_dir             = $graphite_web::params::gw_webapp_dir,
   $manage_packages           = $graphite_web::params::manage_packages,
+  $memcached_enabled         = $graphite_web::params::memcached_enabled,
 ) inherits graphite_web::params {
 
   validate_absolute_path( $gw_webapp_dir )
 
   validate_bool( $manage_packages )
+
+  validate_hash( $carbonlink_hosts )
+
+  validate_numeric( $carbonlink_timeout )
 
   validate_re( $gw_django_version, '^(present|\d+\.\d+\.\d+)$' )
   validate_re( $gw_django_tagging_version, '^(present|\d+\.\d+\.\d+)$' )

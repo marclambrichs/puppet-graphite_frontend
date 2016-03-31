@@ -3,6 +3,8 @@
 #
 class graphite_web::params {
   $apache_service_name       = 'httpd'
+  $carbonlink_hosts          = {}
+  $carbonlink_timeout        = 1.0
   $gw_django_version         = present
   $gw_django_pkg             = 'python-django'
   $gw_django_tagging_version = present
@@ -17,4 +19,5 @@ class graphite_web::params {
   $gw_pytz_pkg               = 'pytz'
   $gw_webapp_dir             = '/etc/graphite-web'
   $manage_packages           = true
+  $memcached_enabled         = false
 }
