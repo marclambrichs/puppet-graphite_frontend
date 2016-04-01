@@ -113,7 +113,8 @@ class graphite_web (
 
   anchor { 'graphite_web::begin': } ->
   class { 'graphite_web::install': } ->
-  class { 'graphite_web::config': } ~>
+  class { 'graphite_web::config': } ->
+  class { 'graphite_web::auth': } ~>
   class { 'graphite_web::service': } ->
   anchor { 'graphite_web::end': }
 
