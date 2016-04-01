@@ -54,11 +54,15 @@ DEFAULT_CACHE_DURATION = <%= scope.lookupvar('graphite_web::ls_default_cache_dur
 #####################################
 # Change only GRAPHITE_ROOT if your install is merely shifted from /opt/graphite
 # to somewhere else
+<% if scope.lookupvar('graphite_web::ls_graphite_root') != "/opt/graphite" -%>
 GRAPHITE_ROOT = '<%= scope.lookupvar('graphite_web::ls_graphite_root') %>'
+<% end -%>
 # Most installs done outside of a separate tree such as /opt/graphite will only
 # need to change these three settings. Note that the default settings for each
 # of these is relative to GRAPHITE_ROOT
+<% if $root = scope.lookupvar('graphite_web::ls_graphite_root'); scope.lookupvar('graphite_web::ls_conf_dir') !~ /^$root/ -%> 
 CONF_DIR = '<%= scope.lookupvar('graphite_web::ls_conf_dir') %>'
+<% end -%>
 STORAGE_DIR = '<%= scope.lookupvar('graphite_web::ls_storage_dir') %>'
 CONTENT_DIR = '<%= scope.lookupvar('graphite_web::ls_content_dir') %>'
 
