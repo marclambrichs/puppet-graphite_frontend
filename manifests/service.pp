@@ -3,8 +3,6 @@
 #
 class graphite_web::service {
 
-  service { $::graphite_web::apache_service_name:
-    ensure => running,
-    enable => true,
-  }
+  include graphite_web::service::auth
+
 }

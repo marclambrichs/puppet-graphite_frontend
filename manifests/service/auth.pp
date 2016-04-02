@@ -1,7 +1,7 @@
 # == class graphite_web::auth
 #
 #
-class graphite_web::auth {
+class graphite_web::service::auth {
   exec { 'htpasswd':
     command => 'htpasswd -bc /etc/httpd/conf/htpasswd graphite graphite',
     creates => '/etc/httpd/conf/htpasswd',
