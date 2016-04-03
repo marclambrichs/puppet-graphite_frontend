@@ -22,7 +22,8 @@ class graphite_web::params {
   $ls_carbonlink_timeout     = 1.0
   $ls_conf_dir               = '/opt/graphite/conf'
   $ls_content_dir            = '/usr/share/graphite/webapp/content'
-  $ls_databases              = {}
+  $ls_db_name                = '/opt/graphite/storage/graphite.db'
+  $ls_db_engine              = 'django.db.backends.sqlite3'
   $ls_default_cache_duration = 60
   $ls_graphite_root          = '/usr/share/graphite'
   $ls_index_file             = '/var/lib/graphite-web/index'

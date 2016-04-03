@@ -54,7 +54,7 @@ DEFAULT_CACHE_DURATION = <%= scope.lookupvar('graphite_web::ls_default_cache_dur
 #####################################
 # Change only GRAPHITE_ROOT if your install is merely shifted from /opt/graphite
 # to somewhere else
-<% if scope.lookupvar('graphite_web::ls_graphite_root') != "/opt/graphite" -%>
+<% if scope.lookupvar('graphite_web::ls_graphite_root') -%>
 GRAPHITE_ROOT = '<%= scope.lookupvar('graphite_web::ls_graphite_root') %>'
 <% end -%>
 # Most installs done outside of a separate tree such as /opt/graphite will only
@@ -157,16 +157,16 @@ DATA_DIRS = [WHISPER_DIR, RRD_DIR] # Default: set from the above variables
 # The default is 'django.db.backends.sqlite3' with file 'graphite.db'
 # located in STORAGE_DIR
 #
-#DATABASES = {
-#    'default': {
-#        'NAME': '/opt/graphite/storage/graphite.db',
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'USER': '',
-#        'PASSWORD': '',
-#        'HOST': '',
-#        'PORT': ''
-#    }
-#}
+DATABASES = {
+    'default': {
+        'NAME': '<%= scope.lookupvar('graphite_web::ls_db_name') %>',
+        'ENGINE': '<%= scope.lookupvar('graphite_web::ls_db_engine') %>',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': ''
+    }
+}
 #
 
 
