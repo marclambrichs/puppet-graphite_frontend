@@ -68,8 +68,8 @@ class graphite_web::config {
     error_log_file              => "${::hostname}.ssl_error.log",
 
     ssl                         => true,
-    ssl_cert                    => "/etc/pki/tls/certs/${::fqdn}.cer",
-    ssl_key                     => '/etc/pki/tls/private/private.key',
+    ssl_cert                    => "/etc/pki/tls/certs/${::fqdn}.crt",
+    ssl_key                     => "/etc/pki/tls/private/${::fqdn}.key",
     ssl_protocol                => ['All', '-SSLv2', '-SSLv3'],
     ssl_cipher                  => 'AES128+EECDH:AES128+EDH',
 
