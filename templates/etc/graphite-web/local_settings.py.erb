@@ -45,8 +45,10 @@ TIME_ZONE = '<%= scope.lookupvar('graphite_web::ls_timezone') %>'
 # You should not use the loopback address (127.0.0.1) here if using clustering
 # as every webapp in the cluster should use the exact same values to prevent
 # unneeded cache misses. Set to [] to disable caching of images and fetched data
+<% if scope.lookupvar('graphite_web::memcached_enabled') == true -%>
 MEMCACHE_HOSTS = [<%= scope.lookupvar('graphite_web::ls_memcached_hosts').map{ |elt| "\"#{elt}\""}.join(",") %>]
 DEFAULT_CACHE_DURATION = <%= scope.lookupvar('graphite_web::ls_default_cache_duration') %> # Cache images and data for 1 minute
+<% end -%>
 
 
 #####################################

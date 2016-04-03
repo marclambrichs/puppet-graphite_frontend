@@ -40,9 +40,9 @@ class graphite_web::config {
   include apache
 
   $vhost_defaults = {
-    vhost_name => '*',
-    port       => 80,
-    error_log  => true,
+    vhost_name     => '*',
+    port           => 80,
+    error_log      => true,
     error_log_file => "${name}.error.log",
     access_logs    => [{
       file => "/var/log/httpd/${name}.access.log"

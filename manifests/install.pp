@@ -28,6 +28,11 @@ class graphite_web::install {
         name   => $graphite_web::gw_pytz_pkg
       }
     })
-  }
 
+    if $::graphite_web::memcached_enabled {
+      package { $graphite_web::gw_python_memcached_pkg:
+        ensure => $graphite_web::gw_python_memcached_version
+      }
+    }
+  }
 }
