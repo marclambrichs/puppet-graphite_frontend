@@ -84,15 +84,17 @@ class graphite_web (
   $gw_webapp_dir             = $graphite_web::params::gw_webapp_dir,
   $manage_packages           = $graphite_web::params::manage_packages,
   $memcached_enabled         = $graphite_web::params::memcached_enabled,
+  $vhosts                    = $graphite_web::params::vhosts,
 ) inherits graphite_web::params {
 
   validate_absolute_path( $gw_webapp_dir )
 
   validate_bool( $manage_packages )
 
-  validate_hash( $carbonlink_hosts )
+  validate_hash( $ls_carbonlink_hosts )
+  validate_hash( $vhosts )
 
-  validate_numeric( $carbonlink_timeout )
+  validate_numeric( $ls_carbonlink_timeout )
 
   validate_re( $gw_django_version, '^(present|\d+\.\d+\.\d+)$' )
   validate_re( $gw_django_tagging_version, '^(present|\d+\.\d+\.\d+)$' )

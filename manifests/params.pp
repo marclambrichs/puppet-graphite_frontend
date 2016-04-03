@@ -34,4 +34,5 @@ class graphite_web::params {
   $ls_whisper_dir            = '/opt/graphite/storage/whisper'
   $manage_packages           = true
   $memcached_enabled         = false
+  $vhosts                    = {}
 }
