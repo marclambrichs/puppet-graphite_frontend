@@ -43,9 +43,9 @@ class graphite_web::config {
     vhost_name     => '*',
     port           => 80,
     error_log      => true,
-    error_log_file => "${name}.error.log",
+    error_log_file => '%{::hostname}.error.log',
     access_logs    => [{
-      file => "/var/log/httpd/${name}.access.log"
+      file => '/var/log/httpd/%{::hostname}.access.log'
     }],
     ssl            => false,
     ssl_protocol   => ['All', '-SSLv2', '-SSLv3'],
