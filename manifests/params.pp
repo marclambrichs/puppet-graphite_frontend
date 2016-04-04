@@ -1,7 +1,7 @@
-# == Class graphite_web::params
+# == Class graphite_frontend::params
 #
 #
-class graphite_web::params {
+class graphite_frontend::params {
   $apache_service_name         = 'httpd'
   $carbonlink_hosts            = {}
   $carbonlink_timeout          = 1.0

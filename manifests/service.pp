@@ -1,8 +1,8 @@
-# == Class graphite_web::service
+# == Class graphite_frontend::service
 #
 #
-class graphite_web::service {
+class graphite_frontend::service {
 
-  include graphite_web::service::auth
+  include graphite_frontend::service::auth
 
 }

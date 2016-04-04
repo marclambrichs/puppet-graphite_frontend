@@ -1,40 +1,40 @@
-# == Class graphite_web::config
+# == Class graphite_frontend::config
 #
 #
-class graphite_web::config {
+class graphite_frontend::config {
 
-  file { "${graphite_web::gw_webapp_dir}/local_settings.py":
+  file { "${graphite_frontend::gw_webapp_dir}/local_settings.py":
     ensure  => file,
-    content => template('graphite_web/etc/graphite-web/local_settings.py.erb'),
-    group   => $graphite_web::gw_group,
+    content => template('graphite_frontend/etc/graphite-web/local_settings.py.erb'),
+    group   => $graphite_frontend::gw_group,
     mode    => '0644',
-    owner   => $graphite_web::gw_user,
-    require => Package[$graphite_web::gw_graphite_web_pkg]
+    owner   => $graphite_frontend::gw_user,
+    require => Package[$graphite_frontend::gw_graphite_frontend_pkg]
   }
 
-  file { "${graphite_web::gw_webapp_dir}/graphite.wsgi":
+  file { "${graphite_frontend::gw_webapp_dir}/graphite.wsgi":
     ensure  => file,
-    content => template('graphite_web/etc/graphite-web/graphite.wsgi.erb'),
-    group   => $graphite_web::gw_group,
+    content => template('graphite_frontend/etc/graphite-web/graphite.wsgi.erb'),
+    group   => $graphite_frontend::gw_group,
     mode    => '0644',
-    owner   => $graphite_web::gw_user,
-    require => Package[$graphite_web::gw_graphite_web_pkg]
+    owner   => $graphite_frontend::gw_user,
+    require => Package[$graphite_frontend::gw_graphite_web_pkg]
   }
 
-  file { "${graphite_web::gw_webapp_dir}/dashboard.conf":
+  file { "${graphite_frontend::gw_webapp_dir}/dashboard.conf":
     ensure  => file,
-    content => template('graphite_web/etc/graphite-web/dashboard.conf.erb'),
-    group   => $graphite_web::gw_group,
+    content => template('graphite_frontend/etc/graphite-web/dashboard.conf.erb'),
+    group   => $graphite_frontend::gw_group,
     mode    => '0644',
-    owner   => $graphite_web::gw_user,
-    require => Package[$graphite_web::gw_graphite_web_pkg]
+    owner   => $graphite_frontend::gw_user,
+    require => Package[$graphite_frontend::gw_graphite_frontend_pkg]
   }
 
   exec { 'init django db':
     command     => '/bin/python ./manage.py syncdb --noinput',
     cwd         => '/usr/lib/python2.7/site-packages/graphite',
     refreshonly => true,
-    require     => File["${graphite_web::gw_webapp_dir}/local_settings.py"]
+    require     => File["${graphite_frontend::gw_webapp_dir}/local_settings.py"]
   }
 
   selboolean {'httpd_can_network_connect':
@@ -42,7 +42,7 @@ class graphite_web::config {
     value      => on,
   }
 
-  Selboolean['httpd_can_network_connect'] ~> Service[$graphite_web::apache_service_name]
+  Selboolean['httpd_can_network_connect'] ~> Service[$graphite_frontend::apache_service_name]
 
   include apache
 
@@ -55,6 +55,6 @@ class graphite_web::config {
     ssl_cipher     => 'AES128+EECDH:AES128+EDH',
   }
 
-  create_resources( 'apache::vhost', $graphite_web::vhosts, $vhost_defaults )
+  create_resources( 'apache::vhost', $graphite_frontend::vhosts, $vhost_defaults )
 
 }
