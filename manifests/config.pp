@@ -50,4 +50,6 @@ class graphite_web::config {
 
   create_resources( 'apache::vhost', $graphite_web::vhosts, $vhost_defaults )
 
+  class { 'graphite_web::config::auth': }
+
 }
