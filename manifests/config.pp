@@ -37,6 +37,8 @@ class graphite_frontend::config {
     require     => File["${graphite_frontend::gw_webapp_dir}/local_settings.py"]
   }
 
+  File["${graphite_frontend::gw_webapp_dir}/local_settings.py"] ~> Exec['init django db']
+
   selboolean {'httpd_can_network_connect':
     persistent => true,
     value      => on,
