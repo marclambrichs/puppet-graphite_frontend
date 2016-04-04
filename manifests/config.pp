@@ -37,6 +37,13 @@ class graphite_web::config {
     require     => File["${graphite_web::gw_webapp_dir}/local_settings.py"]
   }
 
+  selboolean {'httpd_can_network_connect':
+    persistent => true,
+    value      => on,
+  }
+
+  Selboolean['httpd_can_network_connect'] ~> Service[$graphite_web::apache_service_name]
+
   include apache
 
   $vhost_defaults = {
