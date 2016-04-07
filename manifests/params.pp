@@ -3,8 +3,6 @@
 #
 class graphite_frontend::params {
   $apache_service_name         = 'httpd'
-  $carbonlink_hosts            = {}
-  $carbonlink_timeout          = 1.0
   $gw_django_version           = present
   $gw_django_pkg               = 'python-django'
   $gw_django_tagging_version   = present
@@ -20,7 +18,7 @@ class graphite_frontend::params {
   $gw_pytz_version             = present
   $gw_pytz_pkg                 = 'pytz'
   $gw_webapp_dir               = '/etc/graphite-web'
-  $ls_carbonlink_hosts         = []
+  $ls_carbonlink_hosts         = {}
   $ls_carbonlink_timeout       = 1.0
   $ls_conf_dir                 = '/opt/graphite/conf'
   $ls_content_dir              = '/usr/share/graphite/webapp/content'
