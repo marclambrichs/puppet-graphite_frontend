@@ -54,7 +54,9 @@
 # Copyright 2016 Marc Lambrichs
 #
 class graphite_frontend (
+  $apache_group                = $graphite_frontend::params::apache_group,
   $apache_service_name         = $graphite_frontend::params::apache_service_name,
+  $apache_user                 = $graphite_frontend::params::apache_user,
   $ls_carbonlink_hosts         = $graphite_frontend::params::ls_carbonlink_hosts,
   $ls_carbonlink_timeout       = $graphite_frontend::params::ls_carbonlink_timeout,
   $ls_conf_dir                 = $graphite_frontend::params::ls_conf_dir,

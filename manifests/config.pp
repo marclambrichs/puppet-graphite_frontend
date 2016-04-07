@@ -33,8 +33,10 @@ class graphite_frontend::config {
   exec { 'init django db':
     command     => '/bin/python ./manage.py syncdb --noinput',
     cwd         => '/usr/lib/python2.7/site-packages/graphite',
+    group       => $graphite_frontend::apache_group,
     refreshonly => true,
-    require     => File["${graphite_frontend::gw_webapp_dir}/local_settings.py"]
+    require     => File["${graphite_frontend::gw_webapp_dir}/local_settings.py"],
+    user        => $graphite_frontend::apache_user,
   }
 
   File["${graphite_frontend::gw_webapp_dir}/local_settings.py"] ~> Exec['init django db']

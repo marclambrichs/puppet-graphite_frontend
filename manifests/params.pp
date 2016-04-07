@@ -36,4 +36,14 @@ class graphite_frontend::params {
   $manage_packages             = true
   $memcached_enabled           = false
   $vhosts                      = {}
+
+  case $::osfamily {
+    'RedHat': {
+      $apache_group = 'apache'
+      $apache_user  = 'apache'
+    }
+    default: {
+      fail("unsupported os: ${::operatingsystem}.")
+    }
+  }
 }
