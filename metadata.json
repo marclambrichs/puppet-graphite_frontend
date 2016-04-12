@@ -3,12 +3,11 @@
   "version": "0.1.0",
   "author": "Marc Lambrichs <marc.lambrichs@gmail.com>",
   "summary": "Graphite-web, a django-based web application that renders graphs and dashboards",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "source": "https://github.com/mlambrichs/puppet-graphite_frontend.git",
   "project_page": "https://github.com/mlambrichs/puppet-graphite_frontend",
   "issues_url": "https://github.com/mlambrichs/puppet-graphite_frontend/issues",
   "dependencies": [
-    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"},
   ]
 }
-

@@ -41,7 +41,7 @@ class graphite_frontend::config (
     require => Package[$graphite_frontend::gw_graphite_web_pkg]
   }
 
-  file { "${graphite_frontend::gw_webapp_dir}/dashboard.conf":
+  file { $graphite_frontend::ls_dashboard_conf :
     ensure  => file,
     content => template('graphite_frontend/etc/graphite-web/dashboard.conf.erb'),
     group   => $graphite_frontend::gw_group,
