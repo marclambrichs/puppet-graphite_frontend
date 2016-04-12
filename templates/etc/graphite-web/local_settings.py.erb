@@ -10,7 +10,7 @@
 # install. This key is used for salting of hashes used in auth tokens,
 # CRSF middleware, cookie storage, etc. This should be set identically among
 # instances if used behind a load balancer.
-SECRET_KEY = '<%= scope.lookupvar('graphite_frontend::ls_secret_key') %>'
+SECRET_KEY = '<%= @ls_secret_key %>'
 
 # In Django 1.5+ set this to the list of hosts your graphite instances is
 # accessible as. See:
@@ -20,7 +20,7 @@ SECRET_KEY = '<%= scope.lookupvar('graphite_frontend::ls_secret_key') %>'
 # Set your local timezone (Django's default is America/Chicago)
 # If your graphs appear to be offset by a couple hours then this probably
 # needs to be explicitly set to your local timezone.
-TIME_ZONE = '<%= scope.lookupvar('graphite_frontend::ls_timezone') %>'
+TIME_ZONE = '<%= @ls_timezone %>'
 
 # Override this to provide documentation specific to your Graphite deployment
 #DOCUMENTATION_URL = "http://graphite.readthedocs.org/"
@@ -45,9 +45,9 @@ TIME_ZONE = '<%= scope.lookupvar('graphite_frontend::ls_timezone') %>'
 # You should not use the loopback address (127.0.0.1) here if using clustering
 # as every webapp in the cluster should use the exact same values to prevent
 # unneeded cache misses. Set to [] to disable caching of images and fetched data
-<% if scope.lookupvar('graphite_frontend::memcached_enabled') == true -%>
-MEMCACHE_HOSTS = [<%= scope.lookupvar('graphite_frontend::ls_memcached_hosts').map{ |elt| "\"#{elt}\""}.join(",") %>]
-DEFAULT_CACHE_DURATION = <%= scope.lookupvar('graphite_frontend::ls_default_cache_duration') %> # Cache images and data for 1 minute
+<% if @memcached_enabled == true -%>
+MEMCACHE_HOSTS = [<%= @ls_memcached_hosts.map{ |elt| "\"#{elt}\""}.join(",") %>]
+DEFAULT_CACHE_DURATION = <%= @ls_default_cache_duration %> # Cache images and data for 1 minute
 <% end -%>
 
 
@@ -56,20 +56,20 @@ DEFAULT_CACHE_DURATION = <%= scope.lookupvar('graphite_frontend::ls_default_cach
 #####################################
 # Change only GRAPHITE_ROOT if your install is merely shifted from /opt/graphite
 # to somewhere else
-<% if scope.lookupvar('graphite_frontend::ls_graphite_root') -%>
-GRAPHITE_ROOT = '<%= scope.lookupvar('graphite_frontend::ls_graphite_root') %>'
+<% if @ls_graphite_root -%>
+GRAPHITE_ROOT = '<%= @ls_graphite_root %>'
 <% end -%>
 # Most installs done outside of a separate tree such as /opt/graphite will only
 # need to change these three settings. Note that the default settings for each
 # of these is relative to GRAPHITE_ROOT
-<%- if $root = scope.lookupvar('graphite_frontend::ls_graphite_root'); scope.lookupvar('graphite_frontend::ls_conf_dir') !~ /^$root/ -%> 
-CONF_DIR = '<%= scope.lookupvar('graphite_frontend::ls_conf_dir') %>'
+<%- if $root = @ls_graphite_root; @ls_conf_dir !~ /^$root/ -%>
+CONF_DIR = '<%= @ls_conf_dir %>'
 <% end -%>
-<%- if $root = scope.lookupvar('graphite_frontend::ls_graphite_root'); scope.lookupvar('graphite_frontend::ls_storage_dir') !~ /^$root/ -%> 
-STORAGE_DIR = '<%= scope.lookupvar('graphite_frontend::ls_storage_dir') %>'
+<%- if $root = @ls_graphite_root; @ls_storage_dir !~ /^$root/ -%>
+STORAGE_DIR = '<%= @ls_storage_dir %>'
 <% end -%>
-<%- if $root = scope.lookupvar('graphite_frontend::ls_graphite_root').gsub('/','\/'); scope.lookupvar('graphite_frontend::ls_content_dir') !~ /^$root/ -%> 
-CONTENT_DIR = '<%= scope.lookupvar('graphite_frontend::ls_content_dir') %>'
+<%- if $root = @ls_graphite_root.gsub('/','\/'); @ls_content_dir !~ /^$root/ -%>
+CONTENT_DIR = '<%= @ls_content_dir %>'
 <% end -%>
 
 # To further or fully customize the paths, modify the following. Note that the
@@ -78,17 +78,17 @@ CONTENT_DIR = '<%= scope.lookupvar('graphite_frontend::ls_content_dir') %>'
 ## Webapp config files
 #DASHBOARD_CONF = '/opt/graphite/conf/dashboard.conf'
 #GRAPHTEMPLATES_CONF = '/opt/graphite/conf/graphTemplates.conf'
-DASHBOARD_CONF = '/etc/graphite-web/dashboard.conf'
-GRAPHTEMPLATES_CONF = '/etc/graphite-web/graphTemplates.conf'
+DASHBOARD_CONF = '<%= @ls_dashboard_conf %>'
+GRAPHTEMPLATES_CONF = '<%= @ls_graphtemplates_conf %>'
 
 ## Data directories
 # NOTE: If any directory is unreadable in DATA_DIRS it will break metric browsing
-WHISPER_DIR = '<%= scope.lookupvar('graphite_frontend::ls_whisper_dir') %>'
+WHISPER_DIR = '<%= @ls_whisper_dir %>'
 #RRD_DIR = '/opt/graphite/storage/rrd'
 #DATA_DIRS = [WHISPER_DIR, RRD_DIR] # Default: set from the above variables
-LOG_DIR = '<%= scope.lookupvar('graphite_frontend::ls_log_dir') %>'
-INDEX_FILE = '<%= scope.lookupvar('graphite_frontend::ls_index_file') %>'
-RRD_DIR = '/var/lib/carbon/rrd'
+LOG_DIR = '<%= @ls_log_dir %>'
+INDEX_FILE = '<%= @ls_index_file %>'
+RRD_DIR = '<%= @ls_rrd_dir %>'
 DATA_DIRS = [WHISPER_DIR, RRD_DIR] # Default: set from the above variables
 
 #####################################
@@ -161,8 +161,8 @@ DATA_DIRS = [WHISPER_DIR, RRD_DIR] # Default: set from the above variables
 #
 DATABASES = {
     'default': {
-        'NAME': '<%= scope.lookupvar('graphite_frontend::ls_db_name') %>',
-        'ENGINE': '<%= scope.lookupvar('graphite_frontend::ls_db_engine') %>',
+        'NAME': '<%= @ls_db_name %>',
+        'ENGINE': '<%= @ls_db_engine %>',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
@@ -217,8 +217,8 @@ DATABASES = {
 # and a common scheme is to use 7102 for instance b, 7202 for instance c, etc.
 #
 # You *should* use 127.0.0.1 here in most cases
-CARBONLINK_HOSTS=[<%= scope.lookupvar('graphite_frontend::ls_carbonlink_hosts').map{ |k,v| "\"127.0.0.1:#{v["cache_query_port"]}:#{k}\""}.join(",") %>]
-CARBONLINK_TIMEOUT = <%= scope.lookupvar('graphite_frontend::ls_carbonlink_timeout') %>
+CARBONLINK_HOSTS=[<%= @ls_carbonlink_hosts.map{ |k,v| "\"127.0.0.1:#{v["cache_query_port"]}:#{k}\""}.join(",") %>]
+CARBONLINK_TIMEOUT = <%= @ls_carbonlink_timeout %>
 # Using 'query-bulk' queries for carbon
 # It's more effective, but python-carbon 0.9.13 (or latest from 0.9.x branch) is required
 # See https://github.com/graphite-project/carbon/pull/132 for details
@@ -230,4 +230,3 @@ CARBONLINK_TIMEOUT = <%= scope.lookupvar('graphite_frontend::ls_carbonlink_timeo
 # Uncomment the following line for direct access to Django settings such as
 # MIDDLEWARE_CLASSES or APPS
 #from graphite.app_settings import *
-

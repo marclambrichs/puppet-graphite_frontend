@@ -22,10 +22,12 @@ class graphite_frontend::params {
   $ls_carbonlink_timeout       = 1.0
   $ls_conf_dir                 = '/opt/graphite/conf'
   $ls_content_dir              = '/usr/share/graphite/webapp/content'
+  $ls_dashboard_conf           = "${gw_webapp_dir}/dashboard.conf"
   $ls_db_name                  = '/opt/graphite/storage/graphite.db'
   $ls_db_engine                = 'django.db.backends.sqlite3'
   $ls_default_cache_duration   = 60
   $ls_graphite_root            = '/usr/share/graphite'
+  $ls_graphtemplates_conf      = "${gw_webapp_dir}/graphTemplates.conf"
   $ls_index_file               = '/var/lib/graphite-web/index'
   $ls_log_dir                  = '/opt/graphite/storage/log/webapp'
   $ls_memcached_hosts          = ['127.0.0.1:11211']
