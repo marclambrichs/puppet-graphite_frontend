@@ -8,6 +8,9 @@
 # "ls_" -> all variables specific to the local_settings file.
 #
 # === Parameters
+# [*apache_group*]
+#   Group name to run the apache service under
+#   Type: String
 # [*apache_service_name*]
 #   Name to use for running the apache service
 #   Type: String
@@ -221,7 +224,19 @@ class graphite_frontend (
   $vhosts                      = $graphite_frontend::params::vhosts,
 ) inherits graphite_frontend::params {
 
-  validate_absolute_path( $gw_webapp_dir )
+  validate_absolute_path( [
+    $gw_webapp_dir,
+    $ls_conf_dir,
+    $ls_content_dir,
+    $ls_dashboard_conf,
+    $ls_graphtemplates_conf,
+    $ls_index_file,
+    $ls_log_dir,
+    $ls_storage_dir,
+    $ls_whisper_dir,
+  ])
+
+  validate_array( $ls_memcached_hosts )
 
   validate_bool(
     $manage_packages,
@@ -231,7 +246,10 @@ class graphite_frontend (
   validate_hash( $ls_carbonlink_hosts )
   validate_hash( $vhosts )
 
-  validate_numeric( $ls_carbonlink_timeout )
+  validate_numeric( [
+    $ls_carbonlink_timeout,
+    $ls_default_cache_duration,
+  ])
 
   validate_re( $gw_django_version, '^(present|\d+\.\d+\.\d+)$' )
   validate_re( $gw_django_tagging_version, '^(present|\d+\.\d+\.\d+)$' )
@@ -242,6 +260,7 @@ class graphite_frontend (
   validate_re( $gw_pytz_version, '^(present|\d+\.\d+\.\d+)$' )
 
   validate_string(
+    $apache_group,
     $apache_service_name,
     $gw_django_pkg,
     $gw_django_tagging_pkg,
@@ -250,7 +269,12 @@ class graphite_frontend (
     $gw_pycairo_pkg,
     $gw_python_memcached_pkg,
     $gw_pytz_pkg,
+    $ls_db_name,
+    $ls_db_engine,
+    $ls_secret_key,
+    $ls_timezone
   )
+
 
   anchor { 'graphite_frontend::begin': } ->
   class { 'graphite_frontend::install': } ->
